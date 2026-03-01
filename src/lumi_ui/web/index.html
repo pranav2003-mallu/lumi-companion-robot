@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Companion UI</title>
+    <link rel="stylesheet" href="style.css?v=4">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Themes Button -->
+        <button id="open-themes-btn" class="glass-btn" style="top: 20px; left: 20px; right: auto;"
+            onclick="openThemesMode()">🎨 Themes</button>
+
+        <!-- Themes Modal Container (Hidden by default) -->
+        <div id="themes-modal" class="hidden">
+            <button id="close-themes-btn" class="glass-btn" onclick="closeThemesMode()">Close Menu</button>
+            <div class="game-board-wrapper">
+                <h2 id="themes-title" class="store-section-title" style="text-align: center;">Choose a Face Theme</h2>
+                <div class="store-grid" style="margin-top: 20px;">
+                    <div class="store-card" onclick="setAppTheme('pink')">
+                        <div
+                            style="background: radial-gradient(circle at center, #ffedff, #ffb6ff, #ff8cff); width:100%; height:135px; display:flex; justify-content:center; align-items:center; font-size:60px;">
+                            🌸</div>
+                        <div class="store-card-title">Classic Pink</div>
+                    </div>
+                    <div class="store-card" onclick="setAppTheme('blue')">
+                        <div
+                            style="background: radial-gradient(circle at center, #edfbff, #9adcfb, #55ccff); width:100%; height:135px; display:flex; justify-content:center; align-items:center; font-size:60px;">
+                            ❄️</div>
+                        <div class="store-card-title">Icy Blue</div>
+                    </div>
+                    <div class="store-card" onclick="setAppTheme('green')">
+                        <div
+                            style="background: radial-gradient(circle at center, #f2fff2, #b5ffb6, #55cc66); width:100%; height:135px; display:flex; justify-content:center; align-items:center; font-size:60px;">
+                            🌿</div>
+                        <div class="store-card-title">Forest Green</div>
+                    </div>
+                    <div class="store-card" onclick="setAppTheme('dark')">
+                        <div
+                            style="background: radial-gradient(circle at center, #4a4a5a, #2a2a3a, #0a0a1a); width:100%; height:135px; display:flex; justify-content:center; align-items:center; font-size:60px;">
+                            🌌</div>
+                        <div class="store-card-title">Midnight Dark</div>
+                    </div>
+                    <div class="store-card" onclick="setAppTheme('gold')">
+                        <div
+                            style="background: radial-gradient(circle at center, #fffcee, #ffe175, #ffb300); width:100%; height:135px; display:flex; justify-content:center; align-items:center; font-size:60px;">
+                            ⭐</div>
+                        <div class="store-card-title">Golden Glow</div>
+                    </div>
+                    <div class="store-card" onclick="setAppTheme('purple')">
+                        <div
+                            style="background: radial-gradient(circle at center, #fdf2ff, #ce93d8, #8e24aa); width:100%; height:135px; display:flex; justify-content:center; align-items:center; font-size:60px;">
+                            �</div>
+                        <div class="store-card-title">Mystic Purple</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Face UI -->
+        <div id="face-container">
+            <div class="face">
+                <div class="eyes-container">
+                    <div class="eye-wrapper">
+                        <div class="eyebrow left"></div>
+                        <div class="eye left">
+                            <div class="iris">
+                                <div class="pupil">
+                                    <div class="sparkle one"></div>
+                                    <div class="sparkle two"></div>
+                                </div>
+                                <div class="glare"></div>
+                            </div>
+                        </div>
+                        <div class="blush" style="transform: translateX(-20px);"></div>
+                    </div>
+                    <div class="eye-wrapper">
+                        <div class="eyebrow right"></div>
+                        <div class="eye right">
+                            <div class="iris">
+                                <div class="pupil">
+                                    <div class="sparkle one"></div>
+                                    <div class="sparkle two"></div>
+                                </div>
+                                <div class="glare"></div>
+                            </div>
+                        </div>
+                        <div class="blush" style="transform: translateX(20px);"></div>
+                    </div>
+                </div>
+                <div class="mouth"></div>
+            </div>
+
+            <!-- A subtle glow to make the screen look premium (Glassmorphism inspired) -->
+            <div class="screen-glare"></div>
+
+            <!-- Dream bubble for sleepy state -->
+            <div id="dream-bubble" class="hidden">
+                <div class="dream-content"></div>
+                <!-- Small bubbles trailing down to head -->
+                <div class="dream-trail one"></div>
+                <div class="dream-trail two"></div>
+            </div>
+        </div>
+
+        <!-- Entertainment Mode Container (Hidden by Default) -->
+        <div id="media-container" class="hidden">
+            <div id="youtube-search-bar"
+                style="width: 100%; display: none; padding: 20px; background: #222; justify-content: center; gap: 10px; align-items: center; z-index: 25;">
+                <input type="text" id="yt-search-input" placeholder="Search YouTube..."
+                    style="font-size: 20px; padding: 10px 20px; border-radius: 30px; border: none; width: 50%; max-width: 600px; outline: none;">
+                <button onclick="searchYouTubeBtn()" class="glass-btn"
+                    style="position: relative; top: auto; right: auto; transform: none; box-shadow: none;">Search</button>
+            </div>
+            <button id="close-media" class="glass-btn" style="z-index: 30;">Back to Face</button>
+            <iframe id="media-frame" src="" frameborder="0" allow="autoplay; encrypted-media; fullscreen"></iframe>
+        </div>
+
+        <!-- Touch Screen Game Container (Hidden by default) -->
+        <div id="game-container" class="hidden">
+            <button id="close-game" class="glass-btn">Close Menu</button>
+            <div class="game-board-wrapper">
+                <h2 id="game-status">Lumi's Game Hub</h2>
+
+                <!-- Game Menu App Store -->
+                <div id="game-menu" style="display: flex; flex-direction: column; width: 100%; max-width: 800px;">
+
+                    <h3 class="store-section-title">✨ Lumi Originals</h3>
+                    <div class="store-grid">
+                        <div class="store-card" onclick="startTicTacToe()">
+                            <div
+                                style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); width:100%; height:135px; display:flex; justify-content:center; align-items:center; font-size:60px;">
+                                🎮</div>
+                            <div class="store-card-title">❌⭕ Tic-Tac-Toe</div>
+                        </div>
+                        <div class="store-card" onclick="startMathGame()">
+                            <div
+                                style="background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%); width:100%; height:135px; display:flex; justify-content:center; align-items:center; font-size:60px;">
+                                🔢</div>
+                            <div class="store-card-title">➕➖ Math Quiz</div>
+                        </div>
+                        <div class="store-card" onclick="startAnimalQuiz()">
+                            <div
+                                style="background: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%); width:100%; height:135px; display:flex; justify-content:center; align-items:center; font-size:60px;">
+                                🦁</div>
+                            <div class="store-card-title">🦁 Animal Safari</div>
+                        </div>
+                        <div class="store-card" onclick="startMemoryMatch()">
+                            <div
+                                style="background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); width:100%; height:135px; display:flex; justify-content:center; align-items:center; font-size:60px;">
+                                🎴</div>
+                            <div class="store-card-title">❓ Memory Match</div>
+                        </div>
+                        <div class="store-card" onclick="startSimonSays()">
+                            <div
+                                style="background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); width:100%; height:135px; display:flex; justify-content:center; align-items:center; font-size:60px;">
+                                🔴🔵</div>
+                            <div class="store-card-title">🧠 Simon Says</div>
+                        </div>
+                        <div class="store-card" onclick="startWordGuess()">
+                            <div
+                                style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); width:100%; height:135px; display:flex; justify-content:center; align-items:center; font-size:60px;">
+                                🔤</div>
+                            <div class="store-card-title">🔤 Word Guesser</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tic Tac Toe -->
+                <div id="tic-tac-toe-board" class="hidden">
+                    <div class="cell" data-index="0"></div>
+                    <div class="cell" data-index="1"></div>
+                    <div class="cell" data-index="2"></div>
+                    <div class="cell" data-index="3"></div>
+                    <div class="cell" data-index="4"></div>
+                    <div class="cell" data-index="5"></div>
+                    <div class="cell" data-index="6"></div>
+                    <div class="cell" data-index="7"></div>
+                    <div class="cell" data-index="8"></div>
+                </div>
+
+                <!-- Math Challenge -->
+                <div id="math-game-board" class="hidden"
+                    style="display:none; flex-direction:column; align-items:center; gap:20px;">
+                    <div id="math-score"
+                        style="font-size:24px; font-weight:bold; color:#0077cc; background:rgba(255,255,255,0.8); padding:5px 15px; border-radius:10px;">
+                        Score: 0 / 10</div>
+                    <div id="math-question"
+                        style="font-size:40px; font-weight:bold; color:#4a2c2a; background:rgba(255,255,255,0.9); padding:15px 30px; border-radius:20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        5 + 3 = ?</div>
+                    <div class="math-options" style="display:flex; gap:15px;">
+                        <button class="math-option">8</button>
+                        <button class="math-option">10</button>
+                        <button class="math-option">7</button>
+                    </div>
+                </div>
+
+                <!-- Animal Quiz -->
+                <div id="animal-quiz-board" class="hidden"
+                    style="display:none; flex-direction:column; align-items:center; gap:20px;">
+                    <div id="animal-question"
+                        style="font-size:30px; font-weight:bold; color:#4a2c2a; background:rgba(255,255,255,0.7); padding:10px 20px; border-radius:15px;">
+                        Find the Tiger!</div>
+                    <div class="animal-options" style="display:flex; gap:15px;">
+                        <div class="animal-cell">🦁</div>
+                        <div class="animal-cell">🐯</div>
+                        <div class="animal-cell">🐻</div>
+                    </div>
+                </div>
+
+                <!-- Memory Match -->
+                <div id="memory-board" class="hidden"
+                    style="display:none; flex-direction:column; align-items:center; gap:20px;">
+                    <div id="memory-grid" style="display: grid; grid-template-columns: repeat(4, 80px); gap: 10px;">
+                    </div>
+                </div>
+
+                <!-- Simon Says -->
+                <div id="simon-board" class="hidden"
+                    style="display:none; flex-direction:column; align-items:center; gap:30px;">
+                    <div id="simon-score" style="font-size:24px; font-weight:bold; color:white;">Level: 1</div>
+                    <div id="simon-circle"
+                        style="width: 200px; height: 200px; border-radius: 50%; display: grid; grid-template-columns: 50% 50%; grid-template-rows: 50% 50%; overflow: hidden; gap: 5px; background: #333; padding: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <div class="simon-btn simon-red" data-color="0" style="background:#ff4757; cursor:pointer;"
+                            onclick="simonPlayerClick(0)"></div>
+                        <div class="simon-btn simon-blue" data-color="1" style="background:#1e90ff; cursor:pointer;"
+                            onclick="simonPlayerClick(1)"></div>
+                        <div class="simon-btn simon-yellow" data-color="2" style="background:#eccc68; cursor:pointer;"
+                            onclick="simonPlayerClick(2)"></div>
+                        <div class="simon-btn simon-green" data-color="3" style="background:#2ed573; cursor:pointer;"
+                            onclick="simonPlayerClick(3)"></div>
+                    </div>
+                </div>
+
+                <!-- Word Guesser -->
+                <div id="word-board" class="hidden"
+                    style="display:none; flex-direction:column; align-items:center; gap:20px;">
+                    <div id="word-display"
+                        style="font-size:45px; letter-spacing:10px; font-weight:bold; color:white; background:rgba(0,0,0,0.5); padding:15px 30px; border-radius:20px; box-shadow: inset 0 0 10px rgba(0,0,0,0.8);">
+                        _ _ _ _</div>
+                    <h3 id="word-hint" style="color:#d4fc79; margin: 0;">Hint: Meow</h3>
+                    <div id="word-keyboard"
+                        style="display:flex; flex-wrap:wrap; justify-content:center; gap:8px; max-width:500px; margin-top:20px;">
+                    </div>
+                </div>
+
+
+                <div id="game-actions" class="hidden" style="display:none; margin-top:20px; gap:10px;">
+                    <button id="back-to-menu" class="glass-btn"
+                        style="position:relative; top:auto; right:auto;">Back</button>
+                    <button id="restart-game" class="glass-btn"
+                        style="position:relative; top:auto; right:auto;">Restart</button>
+                </div>
+            </div>
+        </div>
+        <button onclick="openGame()" class="glass-btn"
+            style="top: auto; bottom: 20px; left: auto; right: 20px; background: rgba(255, 182, 255, 0.4); color: white;">🕹️
+            Play Game</button>
+        <button onclick="openYouTubeBrowser()" class="glass-btn"
+            style="top: auto; bottom: 20px; left: 20px; right: auto; background: rgba(255, 100, 100, 0.4); color: white;">📺
+            YouTube</button>
+    </div>
+
+    <!-- Debug / Developer controls (hidden as requested) -->
+    <div id="dev-controls" style="display: none;">
+        <button onclick="setEmotion('happy')">Happy</button>
+        <button onclick="setEmotion('sad')">Sad</button>
+        <button onclick="setEmotion('angry')">Angry</button>
+        <button onclick="setEmotion('surprised')">Surprised</button>
+        <button onclick="setEmotion('confused')">Confused</button>
+        <button onclick="setEmotion('sleepy')">Sleepy</button>
+        <button onclick="setEmotion('laughing')">Laughing</button>
+        <button onclick="setEmotion('love')" style="background: #ffb6ff;">😍 Love</button>
+        <button onclick="setEmotion('star')" style="background: #fffcee;">⭐ Star</button>
+        <button onclick="setEmotion('dead')" style="background: #2a2a3a; color: white;">😵 Dead</button>
+        <button onclick="setEmotion('dizzy')" style="background: #a8edea;">🌀 Dizzy</button>
+        <button onclick="setEmotion('wink')" style="background: #fdf2ff;">😉 Wink</button>
+        <button onclick="setEmotion('battery')" style="background: #4a4a5a; color: #ffaa00;">🔋 Low Battery</button>
+        <button onclick="startTalking()">Talk</button>
+        <button onclick="stopTalking()">Stop Talk</button>
+        <button onclick="playYouTube('bTqVqk7FSmY')">Play YouTube</button>
+    </div>
+    <script src="script.js?v=5"></script>
+</body>
+
+</html>

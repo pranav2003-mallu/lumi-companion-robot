@@ -1,0 +1,1105 @@
+:root {
+    --bg-color: radial-gradient(circle at center, #ffedff, #ffb6ff, #ff8cff);
+    /* Cute pink gradient */
+    --eye-bg: #fff;
+    --iris-gradient: radial-gradient(circle, #55ccff, #0077cc);
+    /* Cute blue eyes */
+    --pupil-color: #4a2c2a;
+    /* Softer brown for cute look */
+    --mouth-color: #4a2c2a;
+    /* Softer dark brown */
+    --eyebrow-color: #4a2c2a;
+    --blush-color: rgba(255, 100, 150, 0.6);
+    --screen-glow: rgba(255, 255, 255, 0.15);
+    /* Softer overall glow */
+}
+
+body.theme-blue {
+    --bg-color: radial-gradient(circle at center, #edfbff, #9adcfb, #55ccff);
+    --blush-color: rgba(100, 200, 255, 0.6);
+    --mouth-color: #1a3a4a;
+    --eyebrow-color: #1a3a4a;
+    --pupil-color: #1a3a4a;
+    --iris-gradient: radial-gradient(circle, #ff9a9e, #ff5588);
+}
+
+/* Additional Themes */
+body.theme-green {
+    --bg-color: radial-gradient(circle at center, #f2fff2, #b5ffb6, #55cc66);
+    --blush-color: rgba(100, 255, 100, 0.5);
+    --mouth-color: #1a4a1a;
+    --eyebrow-color: #1a4a1a;
+    --pupil-color: #1a4a1a;
+    --iris-gradient: radial-gradient(circle, #ffe175, #ffb300);
+}
+
+body.theme-dark {
+    --bg-color: radial-gradient(circle at center, #4a4a5a, #2a2a3a, #0a0a1a);
+    --blush-color: rgba(255, 255, 255, 0.1);
+    --mouth-color: #ffffff;
+    --eyebrow-color: #ffffff;
+    --pupil-color: #ffffff;
+    --eye-bg: #2a2a3a;
+    --iris-gradient: radial-gradient(circle, #55ccff, #9370db);
+    --screen-glow: rgba(0, 0, 0, 0.5);
+}
+
+body.theme-gold {
+    --bg-color: radial-gradient(circle at center, #fffcee, #ffe175, #ffb300);
+    --blush-color: rgba(255, 100, 0, 0.3);
+    --mouth-color: #5a3a00;
+    --eyebrow-color: #5a3a00;
+    --pupil-color: #5a3a00;
+    --iris-gradient: radial-gradient(circle, #fff, #ffe175);
+}
+
+body.theme-purple {
+    --bg-color: radial-gradient(circle at center, #fdf2ff, #ce93d8, #8e24aa);
+    --blush-color: rgba(150, 50, 200, 0.5);
+    --mouth-color: #3a0a4a;
+    --eyebrow-color: #3a0a4a;
+    --pupil-color: #3a0a4a;
+    --iris-gradient: radial-gradient(circle, #ffb6ff, #55ccff);
+}
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+body,
+html {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #000;
+}
+
+#app {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Optional: a subtle white frame/border to give it a physical device feel naturally */
+#face-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: opacity 0.5s ease;
+}
+
+.face {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    z-index: 2;
+}
+
+.eyes-container {
+    display: flex;
+    gap: 100px;
+    /* Slightly closer for cuteness */
+    align-items: center;
+    justify-content: center;
+}
+
+.eye-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    gap: 10px;
+}
+
+.eyebrow {
+    width: 70px;
+    /* Smaller, rounder */
+    height: 20px;
+    background: var(--eyebrow-color);
+    border-radius: 40px;
+    transition: all 0.3s ease-out;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.eye {
+    width: 150px;
+    /* Slightly larger, rounder eyes */
+    height: 170px;
+    background: var(--eye-bg);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: inset 0px -8px 15px rgba(0, 0, 0, 0.2),
+        0px 0px 20px rgba(255, 255, 255, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    animation: blink 4s infinite, floatEye 3s ease-in-out infinite alternate;
+}
+
+@keyframes floatEye {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-5px);
+    }
+}
+
+.iris {
+    width: 100px;
+    height: 110px;
+    background: var(--iris-gradient);
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(0px, 0px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease-out;
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.4);
+}
+
+.pupil {
+    width: 60px;
+    height: 70px;
+    background: var(--pupil-color);
+    border-radius: 50%;
+    position: absolute;
+}
+
+/* Cute Pupil Sparkles */
+.sparkle.one {
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    box-shadow: 0px 0px 3px rgba(255, 255, 255, 0.8);
+}
+
+.sparkle.two {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 30px;
+    left: 35px;
+    box-shadow: 0px 0px 2px rgba(255, 255, 255, 0.8);
+}
+
+
+.glare {
+    width: 25px;
+    height: 25px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.8);
+    opacity: 0.9;
+}
+
+.glare::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    bottom: -45px;
+    left: -45px;
+    opacity: 0.6;
+}
+
+/* Blush cheeks under eyes */
+.blush {
+    width: 80px;
+    height: 35px;
+    background: var(--blush-color);
+    border-radius: 50%;
+    position: absolute;
+    bottom: -30px;
+    filter: blur(8px);
+    z-index: 5;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.face.sleepy .blush {
+    opacity: 0.4;
+    transform: scale(0.8) translateY(20px);
+}
+
+.mouth {
+    width: 80px;
+    height: 40px;
+    border-bottom: 8px solid var(--mouth-color);
+    border-radius: 0 0 40px 40px;
+    position: relative;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+}
+
+/* Animations */
+@keyframes blink {
+
+    0%,
+    9%,
+    11%,
+    100% {
+        transform: scaleY(1);
+    }
+
+    10% {
+        transform: scaleY(0.1);
+    }
+}
+
+/* EMOTIONS */
+.face.happy .mouth {
+    width: 100px;
+    height: 50px;
+    border-bottom: 12px solid var(--mouth-color);
+    border-radius: 0 0 50px 50px;
+    margin-top: 5px;
+}
+
+.face.happy .eye {
+    border-radius: 50% 50% 40% 40%;
+}
+
+.face.happy .eyebrow {
+    transform: translateY(-10px) rotate(-10deg);
+}
+
+.face.happy .eyebrow.right {
+    transform: translateY(-10px) rotate(10deg);
+}
+
+.face.sad .mouth {
+    width: 60px;
+    height: 30px;
+    border-bottom: none;
+    border-top: 8px solid var(--mouth-color);
+    border-radius: 40px 40px 0 0;
+    margin-top: 25px;
+}
+
+.face.sad .eye {
+    border-radius: 50% 50% 55% 55%;
+    transform: translateY(10px) rotate(-3deg);
+}
+
+.face.sad .eye.right {
+    transform: translateY(10px) rotate(3deg);
+}
+
+.face.sad .eyebrow {
+    transform: translateY(5px) rotate(15deg);
+}
+
+.face.sad .eyebrow.right {
+    transform: translateY(5px) rotate(-15deg);
+}
+
+.face.angry .eye {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 80px;
+}
+
+.face.angry .eye.right {
+    border-top-left-radius: 80px;
+    border-top-right-radius: 10px;
+}
+
+.face.angry .mouth {
+    width: 60px;
+    height: 0px;
+    border-bottom: 8px solid var(--mouth-color);
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.face.angry .eyebrow {
+    transform: translateY(10px) rotate(25deg);
+    background: #500;
+}
+
+.face.angry .eyebrow.right {
+    transform: translateY(10px) rotate(-25deg);
+}
+
+/* Surprised */
+.face.surprised .mouth {
+    height: 50px;
+    width: 50px;
+    border: 8px solid var(--mouth-color);
+    border-radius: 50%;
+    margin-top: 15px;
+}
+
+.face.surprised .eye {
+    transform: scale(1.1);
+}
+
+.face.surprised .eyebrow {
+    transform: translateY(-20px);
+}
+
+.face.surprised .eyebrow.right {
+    transform: translateY(-20px);
+}
+
+/* Confused */
+.face.confused .mouth {
+    width: 60px;
+    height: 15px;
+    border-bottom: 8px solid var(--mouth-color);
+    border-radius: 20px;
+    transform: rotate(15deg);
+    margin-top: 25px;
+}
+
+.face.confused .eye.left {
+    transform: scale(0.85);
+}
+
+.face.confused .eyebrow.left {
+    transform: translateY(5px) rotate(-15deg);
+}
+
+.face.confused .eyebrow.right {
+    transform: translateY(-10px) rotate(10deg);
+}
+
+/* Sleepy - Ultra Kawaii Anime Style */
+.face.sleepy {
+    animation: gentleBob 3.5s infinite alternate ease-in-out;
+}
+
+.face.sleepy .mouth {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--mouth-color);
+    margin-top: 35px;
+    animation: breathe 3.5s infinite alternate ease-in-out;
+    position: relative;
+}
+
+/* Cute Anime Sleep Bubble (Snooze Bubble) */
+.face.sleepy .mouth::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -30px;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(150, 220, 255, 0.6));
+    border: 1.5px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    animation: bubbleInflate 3.5s infinite alternate ease-in-out;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.face.sleepy .eye {
+    height: 50px;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    border-bottom: 12px solid var(--eyebrow-color);
+    border-radius: 0 0 100px 100px;
+    transform: translateY(50px);
+}
+
+.face.sleepy .iris {
+    display: none;
+}
+
+.face.sleepy .eyebrow {
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+@keyframes gentleBob {
+    0% {
+        transform: translateY(0px);
+    }
+
+    100% {
+        transform: translateY(15px);
+    }
+}
+
+@keyframes bubbleInflate {
+    0% {
+        transform: scale(0.3);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1.6);
+        opacity: 0.9;
+    }
+}
+
+@keyframes breathe {
+    0% {
+        transform: scale(0.85);
+    }
+
+    100% {
+        transform: scale(1.15);
+    }
+}
+
+/* Laughing */
+.face.laughing .mouth {
+    width: 100px;
+    height: 60px;
+    border-bottom: 15px solid var(--mouth-color);
+    border-radius: 0 0 80px 80px;
+    margin-top: 5px;
+    animation: shake 0.2s infinite alternate;
+}
+
+.face.laughing .eye {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    height: 140px;
+}
+
+.face.laughing .eyebrow {
+    transform: translateY(-10px) rotate(-10deg);
+}
+
+.face.laughing .eyebrow.right {
+    transform: translateY(-10px) rotate(10deg);
+}
+
+@keyframes shake {
+    0% {
+        transform: translateY(0px);
+    }
+
+    100% {
+        transform: translateY(-3px);
+    }
+}
+
+/* Talking Animation */
+.face.talking .mouth {
+    border-radius: 30px;
+    border: 8px solid var(--mouth-color);
+    background-color: #ffe6eb;
+    transition: height 0.05s ease;
+}
+
+/* --------------- DREAM BUBBLE (Sleep Anim) --------------- */
+#dream-bubble {
+    position: absolute;
+    top: 50px;
+    right: 20%;
+    z-index: 15;
+    opacity: 0;
+    transition: opacity 1s ease;
+    animation: floatDream 3s infinite alternate ease-in-out;
+}
+
+#dream-bubble.visible {
+    opacity: 1;
+}
+
+.dream-content {
+    background: white;
+    padding: 15px 25px;
+    border-radius: 30px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #4a2c2a;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 80px;
+    min-height: 60px;
+}
+
+.dream-trail {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dream-trail.one {
+    width: 20px;
+    height: 20px;
+    bottom: -15px;
+    left: 20px;
+}
+
+.dream-trail.two {
+    width: 10px;
+    height: 10px;
+    bottom: -35px;
+    left: 10px;
+}
+
+@keyframes floatDream {
+    0% {
+        transform: translateY(0px) rotate(-5deg);
+    }
+
+    100% {
+        transform: translateY(-15px) rotate(5deg);
+    }
+}
+
+/* Sleep zzz animations */
+.zzz-anim {
+    animation: pulseText 2s infinite;
+}
+
+.battery-anim {
+    color: #ffaa00;
+    /* Low battery dreaming */
+    font-size: 35px;
+    animation: flashBattery 1.5s infinite alternate;
+}
+
+@keyframes pulseText {
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+}
+
+@keyframes flashBattery {
+    0% {
+        color: #ffaa00;
+        text-shadow: 0 0 10px rgba(255, 170, 0, 0.5);
+    }
+
+    100% {
+        color: #ff5555;
+        text-shadow: 0 0 20px rgba(255, 85, 85, 0.8);
+    }
+}
+
+.screen-glare {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--screen-glow) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* MEDIA & IFRAME */
+#media-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#media-frame {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.glass-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+    color: #4a2c2a;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    z-index: 25;
+}
+
+.glass-btn:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+#dev-controls {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    border-top-right-radius: 15px;
+}
+
+#dev-controls button {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: #4a2c2a;
+    font-weight: bold;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#dev-controls button:hover {
+    background: #ffb6ff;
+    color: white;
+}
+
+/* GAME CONTAINER */
+#game-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 30;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* Transparent background so you can still see Lumi behind the game! */
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+}
+
+#game-container.hidden {
+    display: none;
+}
+
+.game-board-wrapper {
+    background: rgba(15, 15, 25, 0.95);
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+#game-status {
+    color: white;
+    font-size: 26px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+#tic-tac-toe-board {
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    grid-template-rows: repeat(3, 80px);
+    gap: 10px;
+}
+
+.cell {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 45px;
+    color: #4a2c2a;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+
+.cell:active {
+    transform: scale(0.95);
+}
+
+.cell.taken {
+    cursor: not-allowed;
+}
+
+.cell.x {
+    color: #ff6b81;
+}
+
+.cell.o {
+    color: #55ccff;
+}
+
+/* GAME HUB STYLES */
+.menu-btn {
+    padding: 15px 30px;
+    font-size: 22px;
+    border-radius: 20px;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: #4a2c2a;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.menu-btn:hover {
+    transform: scale(1.05);
+    background: #ffb6ff;
+    color: white;
+}
+
+.math-option {
+    width: 80px;
+    height: 80px;
+    font-size: 35px;
+    font-weight: bold;
+    border-radius: 15px;
+    border: none;
+    background: #fff;
+    color: #0077cc;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.math-option:active {
+    transform: scale(0.9);
+}
+
+.animal-cell {
+    width: 90px;
+    height: 90px;
+    font-size: 55px;
+    background: #fff;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.animal-cell:active {
+    transform: scale(0.9);
+}
+
+/* GAME PORTAL / STORE UI */
+.store-section-title {
+    color: white;
+    text-align: left;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+}
+
+.store-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    width: 100%;
+    padding-bottom: 15px;
+}
+
+.store-card {
+    min-width: 240px;
+    background: #1e1e24;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.store-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    background: #2a2a35;
+}
+
+.store-card:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.store-card img {
+    width: 100%;
+    height: 135px;
+    object-fit: cover;
+}
+
+.store-card-title {
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Hide scrollbar for a cleaner look */
+.store-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.store-grid::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.store-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+/* ==========================================
+   NEW ANIME-STYLE EXPRESSIONS 
+   ========================================== */
+
+/* Hide irises when using full eye replacements */
+.face.love .iris,
+.face.star .iris,
+.face.dead .iris,
+.face.dizzy .iris,
+.face.battery .iris {
+    display: none;
+}
+
+/* Base eye styling for new expressions */
+.face.love .eye,
+.face.star .eye,
+.face.dead .eye,
+.face.dizzy .eye,
+.face.battery .eye {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+}
+
+/* 1. LOVE (Heart Eyes) */
+.face.love .eye::after {
+    content: '❤️';
+    font-size: 110px;
+    animation: heartBeat 1s infinite alternate;
+}
+
+.face.love .mouth {
+    border-radius: 20px;
+    border: 5px solid var(--mouth-color);
+    border-top: none;
+    background: #ffb6ff;
+}
+
+@keyframes heartBeat {
+    0% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1.2);
+    }
+}
+
+/* 2. STAR (Starry Eyes) */
+.face.star .eye::after {
+    content: '✨';
+    font-size: 110px;
+    filter: drop-shadow(0 0 15px #ffe175);
+    animation: twinkle 1s infinite;
+}
+
+.face.star .mouth {
+    border-radius: 100px;
+    width: 60px;
+    height: 60px;
+    border: 8px solid var(--mouth-color);
+    background: white;
+}
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.6;
+        transform: scale(0.8);
+    }
+}
+
+/* 3. DEAD (X_X / Error) */
+.face.dead .eye::after {
+    content: '✖';
+    font-size: 100px;
+    color: var(--mouth-color);
+    font-family: sans-serif;
+}
+
+.face.dead .eyebrow {
+    transform: translateY(20px) rotate(15deg);
+}
+
+.face.dead .eyebrow.right {
+    transform: translateY(20px) rotate(-15deg);
+}
+
+.face.dead .mouth {
+    height: 8px;
+    width: 60px;
+    border-radius: 10px;
+    background: var(--mouth-color);
+}
+
+/* 4. DIZZY (@_@ / Swirls) */
+.face.dizzy .eye::after {
+    content: '🌀';
+    font-size: 110px;
+    display: block;
+    animation: spinEyes 1.5s linear infinite;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
+}
+
+.face.dizzy .mouth {
+    height: 15px;
+    width: 50px;
+    border-top: 6px solid var(--mouth-color);
+    border-radius: 50%;
+    background: transparent;
+    transform: rotate(10deg);
+}
+
+@keyframes spinEyes {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* 5. WINK (^_-) */
+.face.wink .eye.left {
+    height: 15px;
+    background: var(--eyebrow-color);
+    transform: translateY(35px);
+    border-radius: 20px;
+    border: none;
+}
+
+.face.wink .eye.left .iris {
+    display: none;
+}
+
+.face.wink .mouth {
+    width: 50px;
+    height: 40px;
+    border-radius: 0 0 50px 50px;
+    border-bottom: 8px solid var(--mouth-color);
+    background: transparent;
+    transform: rotate(-10deg) translateX(10px);
+}
+
+.face.wink .eyebrow.left {
+    transform: translateY(15px);
+}
+
+/* 6. LOW BATTERY */
+.face.battery .eye::after {
+    content: '🔋';
+    font-size: 90px;
+    animation: lowBatteryBlink 2s infinite;
+    filter: hue-rotate(150deg);
+    /* Makes it red/orange usually dependent on OS emoji */
+}
+
+.face.battery .mouth {
+    height: 8px;
+    width: 60px;
+    background: var(--mouth-color);
+    border-radius: 10px;
+}
+
+.face.battery .eyebrow {
+    transform: translateY(20px);
+}
+
+@keyframes lowBatteryBlink {
+
+    0%,
+    40% {
+        opacity: 1;
+    }
+
+    50%,
+    90% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
