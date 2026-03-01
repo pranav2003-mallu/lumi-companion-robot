@@ -136,9 +136,9 @@ class LumiBrainNode(Node):
             # edge-tts connects to Microsoft Azure Neural voices for extremely realistic speech
             filename = "/tmp/lumi_voice.mp3"
             safe_text = text.replace('"', '').replace("'", "")
-            # Aria is a very sweet and natural sounding female voice
+            # Ana is a very sweet and cute sounding female voice, perfect for a companion robot
             # we also speed it up slightly (+5%) to sound more energetic
-            os.system(f'edge-tts --rate=+5% --voice "en-US-AriaNeural" --text "{safe_text}" --write-media {filename}')
+            os.system(f'edge-tts --rate=+5% --voice "en-US-AnaNeural" --text "{safe_text}" --write-media {filename}')
             
             # 2. Play the Audio using pygame
             pygame.mixer.music.load(filename)
@@ -241,13 +241,16 @@ class LumiBrainNode(Node):
 
                     # 1. Custom Command: WAKE UP
                     if "wake up" in text:
+                        self.is_sleeping = False
+                        pygame.mixer.music.stop()
                         pygame.mixer.music.set_volume(1.0) # Reset volume
                         self.set_emotion('happy')
                         self.speak("I'm awake and ready!")
                         continue
                         
                     # 2. Custom Command: SLEEP
-                    if "go to sleep" in text or "sleep" in text and "lumi" in text:
+                    if "go to sleep" in text or ("sleep" in text and "lumi" in text):
+                        self.is_sleeping = True
                         self.set_emotion('sleepy')
                         self.speak("Okay, I'm going to sleep now. Call me if you need me.")
                         continue
@@ -290,6 +293,11 @@ class LumiBrainNode(Node):
 
                     # 6. WAKE WORD CHECK (Only talk to AI if name is called)
                     if "lumi" in text:
+                        if self.is_sleeping:
+                            self.is_sleeping = False
+                            pygame.mixer.music.stop()
+                            pygame.mixer.music.set_volume(1.0)
+                            
                         self.set_emotion('surprised')
                         query = text.replace("hey lumi", "").replace("lumi", "").strip()
                         
@@ -301,9 +309,15 @@ class LumiBrainNode(Node):
                             
                         self.set_emotion('happy')
 
-            except sr.WaitTimeoutError:
-                pass 
-            except sr.UnknownValueError:
+            except (sr.WaitTimeoutError, sr.UnknownValueError):
+                if self.is_sleeping and not pygame.mixer.music.get_busy():
+                    # Every time the microphone loop times out (every 5 seconds) while sleeping,
+                    # play a gentle, random snore to indicate she is asleep.
+                    snore_path = "/home/mallu/app_ui/lumi_ws/src/lumi_ui/web/snore2.mp3"
+                    if os.path.exists(snore_path):
+                        self.set_emotion('sleepy')
+                        pygame.mixer.music.load(snore_path)
+                        pygame.mixer.music.play()
                 pass
             except sr.RequestError as e:
                 self.get_logger().error(f"Google Speech Error: {e}")
