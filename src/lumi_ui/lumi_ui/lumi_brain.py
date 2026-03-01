@@ -14,7 +14,7 @@ from datetime import datetime
 # --- CONFIGURE GEMINI API KEY HERE ---
 # 1. Get a free API key from https://aistudio.google.com/
 # 2. Paste it here:
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "AIzaSyDL8Nzz_wVo4YkNnNreAh-Nkkna0PPkznM")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "<PLACE_YOUR_API_KEY_HERE>")
 
 class LumiBrainNode(Node):
     def __init__(self):
