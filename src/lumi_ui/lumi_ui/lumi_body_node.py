@@ -53,33 +53,46 @@ class LumiBodyNode(Node):
     def _happy_reaction(self):
         """Full coordinated reaction to a head touch."""
 
-        # 1. Make face go happy
-        self._set_emotion('happy')
+        # 1. Make face go laughing/happy
+        self._set_emotion('laughing')
 
-        # 2. Wiggle the ears
+        # 2. Wiggle the ears in background
         self._send_ear_cmd('WIGGLE')
 
-        # 3. Little happy spin (in place) — wheels
-        self._happy_spin()
+        # 3. Little energetic happy wiggle (left-right-left-right)
+        self._happy_wiggle()
 
-        # 4. Hold happy for 3 seconds
-        time.sleep(3.0)
+        # 4. Hold happy for a bit
+        time.sleep(1.5)
 
         # 5. Return to neutral
-        self._set_emotion('neutral')
+        self._set_emotion('happy')
         # Reset ears to center
         self._send_ear_cmd('E90:90')
 
-    def _happy_spin(self):
-        """Spin in place briefly as a happy dance."""
+    def _happy_wiggle(self):
+        """Wiggle left and right quickly as a happy gesture."""
         twist = Twist()
-        twist.angular.z = 1.5    # Spin left at ~1.5 rad/s
+        
+        # Wiggle 1
+        twist.angular.z = 2.0
         self.cmd_vel_pub.publish(twist)
-        time.sleep(0.8)
-
-        twist.angular.z = -1.5   # Spin right
+        time.sleep(0.2)
+        
+        # Wiggle 2
+        twist.angular.z = -2.0
         self.cmd_vel_pub.publish(twist)
-        time.sleep(0.8)
+        time.sleep(0.4)
+        
+        # Wiggle 3
+        twist.angular.z = 2.0
+        self.cmd_vel_pub.publish(twist)
+        time.sleep(0.4)
+        
+        # Wiggle 4
+        twist.angular.z = -2.0
+        self.cmd_vel_pub.publish(twist)
+        time.sleep(0.2)
 
         # Stop
         self.cmd_vel_pub.publish(Twist())

@@ -50,7 +50,7 @@ def generate_launch_description():
             parameters=[{
                 'port': LaunchConfiguration('pico_port'),
                 'baud': 115200,
-                'speed': 180,
+                'speed': 190,
             }]
         ),
 

@@ -6,6 +6,9 @@ from geometry_msgs.msg import Point
 from std_msgs.msg import String
 import threading
 
+# Dynamic path - works on any machine
+_NODE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 class FaceTrackerNode(Node):
     def __init__(self):
         super().__init__('face_tracker_node')
@@ -18,7 +21,7 @@ class FaceTrackerNode(Node):
         self.has_model = False
         try:
             self.recognizer = cv2.face.LBPHFaceRecognizer_create()
-            model_path = '/home/mallu/app_ui/lumi_ws/src/lumi_ui/lumi_ui/lumi_face_model.yml'
+            model_path = os.path.join(_NODE_DIR, 'lumi_face_model.yml')
             if os.path.exists(model_path):
                 self.recognizer.read(model_path)
                 self.has_model = True
